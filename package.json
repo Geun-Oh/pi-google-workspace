@@ -1,0 +1,31 @@
+{
+  "name": "pi-google-workspace",
+  "version": "1.0.0",
+  "description": "Google Workspace extension for pi (Drive, Docs, Sheets, Slides with OAuth)",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "extension",
+    "google-workspace",
+    "google-drive",
+    "google-docs",
+    "google-sheets",
+    "google-slides"
+  ],
+  "files": [
+    "index.ts",
+    "README.md",
+    "google-workspace.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@sinclair/typebox": "*"
+  },
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  }
+}
