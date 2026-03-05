@@ -9,19 +9,13 @@ Google Workspace extension for [pi](https://github.com/badlogic/pi-mono):
 
 ## Install
 
-### Local path
-```bash
-pi install /absolute/path/to/pi-google-workspace
-```
-
-### npm (after publish)
+### npm
 ```bash
 pi install npm:pi-google-workspace
 ```
 
 Then run:
 ```bash
-/reload
 /gws-setup
 ```
 
