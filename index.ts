@@ -1342,6 +1342,9 @@ export default function googleWorkspaceExtension(pi: ExtensionAPI) {
   });
 
   pi.on("session_start", async (_event, ctx) => {
-    ctx.ui.setStatus(EXTENSION_NAME, "Use /gws-setup to connect Google Workspace");
+    const config = await readConfig();
+    if (!config) {
+      ctx.ui.setStatus(EXTENSION_NAME, "Use /gws-setup to connect Google Workspace");
+    }
   });
 }
