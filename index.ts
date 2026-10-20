@@ -1,4 +1,5 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import { launchOAuthBrowser } from "./oauth-browser.ts";
 import { Type } from "@sinclair/typebox";
 import { createServer } from "node:http";
 import { randomBytes } from "node:crypto";
@@ -658,22 +659,6 @@ async function exchangeCodeForToken(params: {
   } satisfies OAuthTokens;
 }
 
-async function openBrowser(pi: ExtensionAPI, url: string) {
-  const platform = process.platform;
-
-  if (platform === "darwin") {
-    await pi.exec("open", [url]);
-    return;
-  }
-
-  if (platform === "win32") {
-    await pi.exec("cmd", ["/c", "start", "", url]);
-    return;
-  }
-
-  await pi.exec("xdg-open", [url]);
-}
-
 export default function googleWorkspaceExtension(pi: ExtensionAPI) {
   pi.registerCommand("gws-setup", {
     description: "Configure Google Workspace OAuth (personal account)",
@@ -712,13 +697,7 @@ export default function googleWorkspaceExtension(pi: ExtensionAPI) {
       const state = randomBytes(12).toString("hex");
       const url = authUrl({ clientId: clientId.trim(), redirectUri, state });
 
-      ctx.ui.notify("Opening your browser to start Google authentication...", "info");
-      try {
-        await openBrowser(pi, url);
-      } catch {
-        ctx.ui.notify("Failed to open browser automatically. Open this URL manually:", "warning");
-        ctx.ui.notify(url, "info");
-      }
+      await launchOAuthBrowser(pi, ctx.ui, url);
 
       let code = "";
       try {
