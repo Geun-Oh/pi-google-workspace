@@ -88,7 +88,7 @@ Then:
 1. Paste Client ID
 2. Paste Client Secret
 3. Confirm Redirect URI (default is recommended)
-4. Complete Google sign-in + consent in browser
+4. Complete Google sign-in + consent in browser. If no tab opens, copy the authorization URL from the persistent **Google Workspace sign-in** chat message into a browser on the same computer as pi. Complete consent within three minutes and leave pi running.
 
 ### 6) Token storage and refresh behavior
 
@@ -99,6 +99,11 @@ The extension stores `access_token` and `refresh_token` for automatic refresh.
 If `refresh_token` is missing (or scopes changed), run `/gws-setup` again and re-consent.
 
 ### 7) Common setup issues
+
+- **Browser does not open / OAuth authorization timed out**
+  - `/gws-setup` always displays a manual sign-in URL in the chat, even if the browser launcher reports success.
+  - Open that URL in a browser on the same computer as pi and complete consent within three minutes. Automatic launching is attempted with a ten-second timeout; launcher failures are reported as warnings.
+  - If the callback has already timed out, cancel the authorization-code prompt and run `/gws-setup` again to get a fresh URL. Do not paste your client secret into that prompt: it expects a one-time Google authorization code.
 
 - **"redirect_uri_mismatch"**
   - The redirect URI in Google Cloud does not exactly match the one used in `/gws-setup`.
@@ -143,6 +148,7 @@ The package gallery reads npm packages that include the `pi-package` keyword.
 - Main extension file: `index.ts`
 - Reload in pi: `/reload`
 - Re-run setup after scope changes: `/gws-setup`
+- Run the browser-launch regression tests with Node.js 22.6+ (type-stripping support): `npm test`. These tests mock the launcher; they do not open a browser, contact Google, or read OAuth credentials.
 
 ## Security Notes
 

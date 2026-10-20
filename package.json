@@ -23,8 +23,12 @@
     "google-sheets",
     "google-slides"
   ],
+  "scripts": {
+    "test": "node --experimental-strip-types --test tests/*.test.mjs"
+  },
   "files": [
     "index.ts",
+    "oauth-browser.ts",
     "README.md",
     "google-workspace.md",
     "LICENSE"
